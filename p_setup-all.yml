@@ -5,4 +5,4 @@
 - import_playbook: p_presetup-storage.yml
 - import_playbook: p_setup-container-postgres.yml
 - import_playbook: p_setup-container-redis.yml
-- import_playbook: p_setup-quay-ha.yml
+#- import_playbook: p_setup-quay-ha.yml

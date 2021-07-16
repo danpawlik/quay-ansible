@@ -20,7 +20,7 @@
       - "@Development tools"
       - python3-psycopg2
   roles:
-    - role: r_rhel_vm
+    - role: r_quay
 
 - name: Setup Container Runtime Hosts
   hosts:

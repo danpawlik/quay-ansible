@@ -24,6 +24,17 @@ These playbooks can be used to setup Quay 3.3.4 and Clair 3.3.4 in an HA configu
 * Run `ansible-playbook p_setup-all.yml`
 * Consider running the included Smoke Test Suite
 
+
+### On centos:
+```
+git clone https://github.com/danpawlik/quay-ansible && cd quay-ansible
+yum install -y ansible python-firewalld firewalld dnf python-dnf podman
+systemctl start firewalld
+ansible-playbook -i inventories/dev/hosts p_presetup-hosts.yml
+ansible-playbook -i inventories/dev/hosts p_setup-all.yml
+```
+
+
 ## Path to Quay 3.5.x
 
 * Version increments are n-1. This means subsequent updates have to be done in order to get to the latest version.
