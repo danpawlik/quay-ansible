@@ -1,25 +1,38 @@
 [dns]
-dns.dev
+dns.dev ansible_python_interpreter=/usr/bin/python3
 
 [postgres]
-postgres.dev
+postgres.dev ansible_python_interpreter=/usr/bin/python3 
+
+#[postgres:vars]
+#postgres_runtime_user=centos
 
 [redis]
-redis.dev
+redis.dev ansible_python_interpreter=/usr/bin/python3
+
+#[redis:vars]
+#redis_runtime_user=centos
 
 [quayconfig]
-quay.dev is_quay=true
+quay.dev is_quay=true ansible_python_interpreter=/usr/bin/python3
 
 [quay]
-quay.dev is_quay=true
-quay-ha.dev is_quay=true
-clair.dev is_clair=true
+quay.dev is_quay=true ansible_python_interpreter=/usr/bin/python3
+# quay-ha.dev is_quay=false ansible_python_interpreter=/usr/bin/python3
+clair.dev is_clair=true ansible_python_interpreter=/usr/bin/python3
+
+[quay:vars]
+quay_image=quay.io/projectquay/quay:v3.5.2"
+clair_image=quay.io/projectquay/clair-jwt:v2.1.2-alpine"
 
 [all]
-quay.dev is_quay=true
-quay-ha.dev is_quay=true
-clair.dev is_clair=true
-postgres.dev
-redis.dev
+quay.dev is_quay=true ansible_python_interpreter=/usr/bin/python3
+# quay-ha.dev is_quay=false ansible_python_interpreter=/usr/bin/python3
+clair.dev is_clair=true ansible_python_interpreter=/usr/bin/python3
+postgres.dev ansible_python_interpreter=/usr/bin/python3
+redis.dev ansible_python_interpreter=/usr/bin/python3
 
-
+[all:vars]
+redis_vm_user=centos
+postgres_vm_user=centos
+quay_vm_user=centos

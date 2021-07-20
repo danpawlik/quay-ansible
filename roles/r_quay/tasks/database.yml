@@ -9,7 +9,7 @@
       login_host: "{{ quay_db_hostname }}"
       port: "{{ quay_db_port }}"
       login_user: "{{ quay_db_admin_username }}"
-      login_password: "{{ quay_db_admin_password }}"
+      login_password: "{{ quay_db_admin_password | default('postgres') }}"
       name: "{{ quay_db_dbname }}"
       ssl_mode: "{{ quay_db_sslmode | default(omit) }}"
       ca_cert: "{{ quay_db_ca_file | default(omit) }}"
@@ -20,7 +20,7 @@
       login_host: "{{ quay_db_hostname }}"
       port: "{{ quay_db_port }}"
       login_user: "{{ quay_db_admin_username | default('postgres') }}"
-      login_password: "{{ quay_db_admin_password }}"
+      login_password: "{{ quay_db_admin_password | default('postgres') }}"
       name: "{{ quay_db_username.split('@') | first }}"
       db: "{{ quay_db_dbname }}"
       priv: ALL
@@ -32,8 +32,8 @@
     postgresql_ext:
       login_host: "{{ quay_db_hostname }}"
       port: "{{ quay_db_port | default(5432) }}"
-      login_user: "{{ quay_db_admin_username }}"
-      login_password: "{{ quay_db_admin_password }}"
+      login_user: "{{ quay_db_admin_username | default('postgres') }}"
+      login_password: "{{ quay_db_admin_password | default('postgres') }}"
       db: "{{ quay_db_dbname }}"
       ssl_mode: "{{ quay_db_sslmode | default(omit) }}"
       ca_cert: "{{ quay_db_ca_file | default(omit) }}"

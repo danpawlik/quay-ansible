@@ -73,8 +73,9 @@
       -e RANDFILE=/tmp/.rnd
       -v /tmp/quay-config:/conf/stack:z
       -v {{ quay_data_dir }}/config/extra_ca_certs:/conf/stack/extra_ca_certs:z
-      -p 8443:8443 {{ quay_image }} config {{ quay_setup_password }}
+      -p 8443:8080 {{ quay_image }} config {{ quay_setup_password }}
     register: podman_pid
+    #-p 8443:8443 {{ quay_image }} config {{ quay_setup_password }}
 
   - name: Quay Setup - Copy DB CA File
     when: postgres_ssl_mode|bool

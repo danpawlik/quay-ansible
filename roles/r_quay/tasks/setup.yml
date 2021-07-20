@@ -26,7 +26,7 @@
       delegate_to: "{{ quay_setup_client }}"
       uri:
         method: POST
-        url: "https://{{ quay_setup_client }}:8443/api/v1/configapp/initialization"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/config"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
         return_content: yes
@@ -48,7 +48,7 @@
     - name: Quay Setup API - Get Config State
       uri:
         method: GET
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/registrystatus"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/registrystatus"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
         return_content: yes
@@ -60,7 +60,7 @@
     - name: Quay Setup API - Validate Database Info
       uri:
         method: POST
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/config/validate/database"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/config/validate/database"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
         return_content: yes
@@ -76,7 +76,7 @@
     - name: Quay Setup API - Set Database Info
       uri:
         method: PUT
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/config"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/config"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
         return_content: yes
@@ -100,7 +100,7 @@
       changed_when: false
       uri:
         method: GET
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/registrystatus"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/registrystatus"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
         return_content: yes
@@ -113,7 +113,7 @@
       changed_when: true
       uri:
         method: GET
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/setupdb"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/setupdb"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
         return_content: yes
@@ -130,7 +130,7 @@
     - name: Quay Setup API - Get Config State
       uri:
         method: GET
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/registrystatus"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/registrystatus"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
         return_content: yes
@@ -143,7 +143,7 @@
       changed_when: true
       uri:
         method: POST
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/config/createsuperuser"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/config/createsuperuser"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
         return_content: yes
@@ -195,7 +195,7 @@
     - name: Quay Setup API - Get Config State
       uri:
         method: GET
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/registrystatus"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/registrystatus"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
 
@@ -209,7 +209,7 @@
     - name: Quay Setup API - Get Clair Scanner Key Id
       uri:
         method: GET
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/keys"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/keys"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
 
@@ -250,7 +250,7 @@
     - name: Quay Setup API - Create new Clair Scanner Key
       uri:
         method: POST
-        url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/keys"
+        url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/keys"
         url_username: "{{ quay_setup_name }}"
         url_password: "{{ quay_setup_password }}"
 
@@ -294,7 +294,7 @@
   - name: Quay Setup API - Get Config
     uri:
       method: GET
-      url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/config"
+      url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/config"
       url_username: "{{ quay_setup_name }}"
       url_password: "{{ quay_setup_password }}"
       force_basic_auth: yes
@@ -472,7 +472,7 @@
   - validate
   uri:
     method: POST
-    url: "https://{{ quay_setup_client }}:8443/api/v1/superuser/config/validate/{{ item }}"
+    url: "http://{{ quay_setup_client }}:8443/api/v1/superuser/config/validate/{{ item }}"
     url_username: "{{ quay_setup_name }}"
     url_password: "{{ quay_setup_password }}"
     return_content: yes

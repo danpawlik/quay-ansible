@@ -53,8 +53,9 @@
         -v {{ quay_data_dir }}/custom:/quay-registry/static/img/logos/custom:z
         -v {{ quay_data_dir }}/anchors/ca.crt:/etc/pki/ca-trust/source/anchors/ca.crt:z
         -v {{ quay_data_dir }}/config/extra_ca_certs:/conf/stack/extra_ca_certs:z
-        -p 443:8443 -p 80:8080 -p 9091:9091 {{ quay_image }}
+        -p 8443:8080 -p 9091:9091 {{ quay_image }}
       register: podman_pid
+      #        -p 443:8443 -p 80:8080 -p 9091:9091 {{ quay_image }}
 
     - name: Wait for Quay Container to Start
       pause:

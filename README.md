@@ -28,10 +28,56 @@ These playbooks can be used to setup Quay 3.3.4 and Clair 3.3.4 in an HA configu
 ### On centos:
 ```
 git clone https://github.com/danpawlik/quay-ansible && cd quay-ansible
-yum install -y ansible python-firewalld firewalld dnf python-dnf podman
-systemctl start firewalld
+yum install -y ansible firewalld dnf podman
+systemctl enable firewalld && systemctl start firewalld
+
+cat << EOF | sudo tee -a /etc/hosts
+$(hostname -I | awk '{print $1}') dns.dev
+$(hostname -I | awk '{print $1}') postgres.dev
+$(hostname -I | awk '{print $1}') redis.dev
+$(hostname -I | awk '{print $1}') quay.dev
+$(hostname -I | awk '{print $1}') quay-ha.dev
+$(hostname -I | awk '{print $1}') clair.dev
+EOF
+
+# gen certs - optional
+# NOTE: you can paste the ca, cert, key into the inventories/dev/group_vars/all.yml file
+
+mkdir -p /etc/containers/certs.d/quay.dev
+mkdir -p /var/data/quay/config/extra_ca_certs && cd /var/data/quay/config/extra_ca_certs
+
+openssl genrsa -out rootCA.key 2048
+openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 3650 \
+     -out rootCA.pem  -subj "/C=PL/ST=WROCLAW/L=WROCLAW/O=QuaySoftwareFactory"
+
+openssl genrsa -out ssl.key 2048
+openssl req -new -key ssl.key -out ssl.csr \
+     -subj "/C=PL/ST=WROCLAW/L=WROCLAW/O=QuaySoftwareFactory/CN=$(hostname --long)"
+
+cat << EOF | tee openssl.cnf
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = $(hostname --long)
+IP.1 = $(hostname -I | awk '{print $1}')
+EOF
+
+openssl x509 -req -in ssl.csr -CA rootCA.pem -CAkey rootCA.key \
+     -CAcreateserial -out ssl.cert -days 356 -extensions v3_req -extfile openssl.cnf
+
 ansible-playbook -i inventories/dev/hosts p_presetup-hosts.yml
 ansible-playbook -i inventories/dev/hosts p_setup-all.yml
+```
+
+Some queries:
+```
+curl -XGET http://quay.dev:8443/api/v1/config --user quayconfig:mypassword2 | python3 -m json.tool -
 ```
 
 
